@@ -3,9 +3,14 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"wgin/bootstrap"
+	"wgin/global"
 )
 
 func main() {
+	// 初始化配置文件的配置
+	bootstrap.InitializeConfig()
+
 	r := gin.Default()
 
 	// 测试路由
@@ -14,5 +19,8 @@ func main() {
 	})
 
 	// 启动服务器
-	r.Run(":8085")
+	err := r.Run(":" + global.App.Config.Environment.Port)
+	if err != nil {
+		return
+	}
 }
