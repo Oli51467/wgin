@@ -3,3 +3,8 @@ app: # 应用基本配置
   port: 8888 # 服务监听端口号
   app_name: wgin # 应用名称
   app_url: http://localhost # 应用域名
+logger:
+  name: wgin,
+  ext: log
+  time_format: "2006-01-02"
+  path: ./logs # 日志根目录

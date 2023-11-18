@@ -1,5 +1,6 @@
 package config
 
+// Environment 其所有属性分别对应 config.yaml 中的所有配置
 type Environment struct {
 	Env     string `mapstructure:"env" json:"env" yaml:"env"`
 	Port    string `mapstructure:"port" json:"port" yaml:"port"`

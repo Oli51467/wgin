@@ -5,12 +5,15 @@ import (
 	"net/http"
 	"wgin/bootstrap"
 	"wgin/global"
+	"wgin/lib/logger"
 )
 
 func main() {
 	// 初始化配置文件的配置
 	bootstrap.InitializeConfig()
+	logger.Info("success")
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 
 	// 测试路由
