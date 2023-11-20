@@ -21,8 +21,5 @@ func (userService *userService) Register(params request.Register) (err error, us
 	}
 	user = model.User{Name: params.Name, Mobile: params.Mobile, Password: util.MakeBcrypt([]byte(params.Password))}
 	err = global.App.Database.Create(&user).Error
-	if err != nil {
-		err = errors.New("注册失败")
-	}
 	return
 }
