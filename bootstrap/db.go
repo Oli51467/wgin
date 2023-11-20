@@ -56,6 +56,7 @@ func initMySqlGorm() *gorm.DB {
 		sqlDB.SetMaxIdleConns(dbConfig.MaxIdleConn)
 		sqlDB.SetMaxOpenConns(dbConfig.MaxOpenConn)
 		global.App.Logger.Info("Database init successfully")
+		global.App.Database = db
 		return db
 	}
 }

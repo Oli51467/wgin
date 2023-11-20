@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"wgin/common/request"
 	"wgin/common/response"
@@ -24,4 +25,14 @@ func Login(c *gin.Context) {
 		}
 		response.Success(c, token)
 	}
+}
+
+// Logout 登出接口
+func Logout(c *gin.Context) {
+	err := service.JwtService.JoinBlackList(c.Keys["token"].(*jwt.Token))
+	if err != nil {
+		response.BusinessFail(c, "登出失败")
+		return
+	}
+	response.Success(c, nil)
 }

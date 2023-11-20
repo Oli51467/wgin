@@ -6,19 +6,16 @@ import (
 	"wgin/global"
 )
 
-var logger = global.App.Logger
-
 func main() {
 	// 初始化配置文件的配置
 	bootstrap.InitializeConfig()
 	// 初始化日志
-	logger = bootstrap.InitializeLogger()
+	bootstrap.InitializeLogger()
 	// 初始化验证器
 	bootstrap.InitializeValidator()
-	logger.Info("success")
-
 	// 初始化数据库
-	global.App.Database = bootstrap.InitializeDB()
+	bootstrap.InitializeDB()
+	bootstrap.InitializeRedis()
 	// 程序关闭前，释放数据库连接
 	defer func() {
 		if global.App.Database != nil {
@@ -29,4 +26,5 @@ func main() {
 
 	gin.SetMode(gin.ReleaseMode)
 	bootstrap.RunServer()
+	global.App.Logger.Info("success")
 }
