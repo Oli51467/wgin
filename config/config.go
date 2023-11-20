@@ -3,4 +3,5 @@ package config
 type Configuration struct {
 	Environment Environment `mapstructure:"app" json:"app" yaml:"app"`
 	Logger      Logger      `mapstructure:"logger" json:"logger" yaml:"logger"`
+	Database    Database    `mapstructure:"database" json:"database" yaml:"database"`
 }

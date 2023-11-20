@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/viper"
 	"os"
 	"wgin/global"
-	"wgin/lib/logger"
 )
 
 func InitializeConfig() *viper.Viper {
@@ -34,12 +33,5 @@ func InitializeConfig() *viper.Viper {
 	if err := v.Unmarshal(&global.App.Config); err != nil {
 		fmt.Println(err)
 	}
-	loggerConfig := global.App.Config.Logger
-	logger.Setup(&logger.Settings{
-		Path:       loggerConfig.Path,
-		Name:       loggerConfig.Name,
-		Ext:        loggerConfig.Ext,
-		TimeFormat: loggerConfig.TimeFormat,
-	})
 	return v
 }

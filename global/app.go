@@ -2,6 +2,8 @@ package global
 
 import (
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
+	"gorm.io/gorm"
 	"wgin/config"
 )
 
@@ -9,6 +11,8 @@ import (
 type Application struct {
 	ViperConfig *viper.Viper
 	Config      config.Configuration
+	Logger      *zap.Logger
+	Database    *gorm.DB
 }
 
 var App = new(Application)
