@@ -10,11 +10,18 @@ import (
 	"syscall"
 	"time"
 	"wgin/global"
+	"wgin/middleware"
 	"wgin/route"
 )
 
 func setupRouter() *gin.Engine {
-	router := gin.Default()
+	if global.App.Config.Environment.Env == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+	router := gin.New()
+	router.Use(gin.Logger(), middleware.CustomRecovery())
+	// 跨域处理
+	router.Use(middleware.Cors())
 
 	// 前端项目静态资源
 	router.StaticFile("/", "./static/dist/index.html")

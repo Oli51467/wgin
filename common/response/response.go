@@ -3,6 +3,7 @@ package response
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 	"wgin/global"
 )
 
@@ -49,4 +50,20 @@ func BusinessFail(c *gin.Context, msg string) {
 // TokenFail  token 鉴权失败统一返回
 func TokenFail(c *gin.Context) {
 	FailByError(c, global.Errors.TokenError)
+}
+
+func ServerError(c *gin.Context, err interface{}) {
+	msg := "Internal Server Error"
+	// 非生产环境显示具体错误信息
+	if global.App.Config.Environment.Env != "production" && os.Getenv(gin.EnvGinMode) != gin.ReleaseMode {
+		if _, ok := err.(error); ok {
+			msg = err.(error).Error()
+		}
+	}
+	c.JSON(http.StatusInternalServerError, Response{
+		http.StatusInternalServerError,
+		nil,
+		msg,
+	})
+	c.Abort()
 }
