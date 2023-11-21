@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"strconv"
 	"time"
@@ -80,9 +81,19 @@ func (jwtService *jwtService) IsInBlacklist(tokenKey string) bool {
 	if joinUnixStr == "" || err != nil {
 		return false
 	}
-	// JwtBlacklistGracePeriod 为黑名单宽限时间，避免并发请求失效
-	if time.Now().Unix()-joinUnix < global.App.Config.Jwt.JwtBlacklistGracePeriod {
+	// JwtBlacklistPeriod 为黑名单宽限时间，目的就是避免并发请求中，刷新了 token ，导致部分请求失败的情况
+	if time.Now().Unix()-joinUnix < global.App.Config.Jwt.JwtBlacklistPeriod {
 		return false
 	}
 	return true
+}
+
+func (jwtService *jwtService) GetUserInfo(GuardName string, id string) (err error, user JwtUser) {
+	switch GuardName {
+	case AppGuardName:
+		return UserService.GetUserInfo(id)
+	default:
+		err = errors.New("guard " + GuardName + " does not exist")
+	}
+	return
 }
